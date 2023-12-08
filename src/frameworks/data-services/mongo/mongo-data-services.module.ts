@@ -6,15 +6,17 @@ import { Book, BookSchema } from './model/book.model';
 import { Genre, GenreSchema } from './model/genre.model';
 import { IDataServices } from 'src/core/abstracts/data-services.abstract';
 import { DATA_BASE_CONFIGURATION } from 'src/configuration';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     MongooseModule.forFeature([
       { name: Author.name, schema: AuthorSchema },
       { name: Book.name, schema: BookSchema },
       { name: Genre.name, schema: GenreSchema },
     ]),
-    MongooseModule.forRoot(DATA_BASE_CONFIGURATION.mongoConnectionString),
+    MongooseModule.forRoot(process.env.CLEAN_NEST_MONGO_CONNECTION_STRING),
   ],
   providers: [
     {
